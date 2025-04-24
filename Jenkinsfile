@@ -3,12 +3,9 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'venkat834/2048'
+        DOCKERHUB_USERNAME = credentials('venkat834') // Add this in Jenkins Credentials
+        DOCKERHUB_PASSWORD = credentials('Venkat@834') // Add this in Jenkins Credentials
         RENDER_HOOK = 'https://api.render.com/deploy/srv-d03r09idbo4c738m1ge0?key=dvgbaxhcX44r'
-        DOCKER_CREDENTIALS_ID = 'dockerhub' // Set this ID in Jenkins credentials
-    }
-
-    triggers {
-        githubPush()  // Trigger pipeline on GitHub push
     }
 
     stages {
@@ -24,20 +21,22 @@ pipeline {
             }
         }
 
-        stage('Push to Docker Hub') {
+        stage('Login & Push to Docker Hub') {
             steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', 2048) {
-                        docker.image("2048").push()
-                    }
-                }
+                bat """
+                echo Logging in to DockerHub...
+                echo Venkat@834 | docker login -u venkat834 --password-stdin
+                docker tag 2048 venkat834/2048
+                docker push venkat834/2048
+                """
             }
         }
 
         stage('Deploy to Render') {
             steps {
                 echo '🚀 Triggering Render Deployment...'
-                bat "curl -X GET https://api.render.com/deploy/srv-d03r09idbo4c738m1ge0?key=dvgbaxhcX44r"
+                bat "curl -X GET 'https://api.render.com/deploy/srv-d03r09idbo4c738m1ge0?key=dvgbaxhcX44r'
+    }"
             }
         }
     }
