@@ -4,12 +4,11 @@ pipeline {
     environment {
         IMAGE_NAME = 'venkat834/2048'
         RENDER_HOOK = 'https://api.render.com/deploy/srv-d03r09idbo4c738m1ge0?key=dvgbaxhcX44r'
-        DOCKER_USERNAME = credentials('venkat834')   // Create in Jenkins (Username only)
-        DOCKER_PASSWORD = credentials('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')   // Create in Jenkins (Password or token)
+        DOCKER_CREDENTIALS_ID = 'dockerhub' // Set this ID in Jenkins credentials
     }
 
     triggers {
-        githubPush()  // Auto-trigger on GitHub push
+        githubPush()  // Trigger pipeline on GitHub push
     }
 
     stages {
@@ -21,22 +20,23 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat "docker build -t 2048:latest ."
+                bat "docker build -t 2048 ."
             }
         }
 
         stage('Push to Docker Hub') {
             steps {
-                bat """
-                echo "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" | docker login -u "venkat834" --password-stdin
-                docker push 2048:latest
-                """
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 2048) {
+                        docker.image("2048").push()
+                    }
+                }
             }
         }
 
         stage('Deploy to Render') {
             steps {
-                echo 'Triggering Render Deployment...'
+                echo '🚀 Triggering Render Deployment...'
                 bat "curl -X GET https://api.render.com/deploy/srv-d03r09idbo4c738m1ge0?key=dvgbaxhcX44r"
             }
         }
