@@ -21,7 +21,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("${IMAGE_NAME}:latest")
+                    docker.build("2048:latest")
                 }
             }
         }
@@ -29,8 +29,8 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_HUB_CREDENTIALS}") {
-                        docker.image("${IMAGE_NAME}:latest").push()
+                    docker.withRegistry('https://index.docker.io/v1/', "dockerhub") {
+                        docker.image("2048:latest").push()
                     }
                 }
             }
@@ -39,7 +39,7 @@ pipeline {
         stage('Deploy to Render') {
             steps {
                 echo 'Triggering Render Deployment...'
-                sh "curl -X GET ${RENDER_HOOK}"
+                sh "curl -X GET https://api.render.com/deploy/srv-d03r09idbo4c738m1ge0?key=dvgbaxhcX44r"
             }
         }
     }
