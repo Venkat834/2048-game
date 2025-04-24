@@ -5,7 +5,7 @@ pipeline {
         IMAGE_NAME = 'venkat834/2048'
         RENDER_HOOK = 'https://api.render.com/deploy/srv-d03r09idbo4c738m1ge0?key=dvgbaxhcX44r'
         DOCKER_USERNAME = credentials('venkat834')   // Create in Jenkins (Username only)
-        DOCKER_PASSWORD = credentials('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')   // Create in Jenkins (Password or token)
+        DOCKER_PASSWORD = credentials('Venkat@834')   // Create in Jenkins (Password or token)
     }
 
     triggers {
@@ -28,7 +28,7 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 bat """
-                echo "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" | docker login -u "venkat834" --password-stdin
+                echo "Venkat@834" | docker login -u "venkat834" --password-stdin
                 docker push 2048:latest
                 """
             }
