@@ -39,7 +39,7 @@ pipeline {
                     script {
                         // Docker login using Jenkins credentials securely
                         bat '''
-                            echo %PASSWORD% | docker login -u venkat834 --password-stdin
+                            echo Venkat@834 | docker login -u venkat834 --password-stdin
                             docker tag 2048:latest venkat834/2048:latest
                             docker push venkat834/2048:latest
                         '''
