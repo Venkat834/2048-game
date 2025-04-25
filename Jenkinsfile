@@ -12,7 +12,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 git branch: 'main', url: 'https://github.com/Venkat834/2048-game.git'
-'
+
             }
         }
 
