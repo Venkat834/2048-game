@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'venkat834/2048'
         BRANCH = 'master'
-        RENDER_DEPLOY_HOOK_URL =  'https://api.render.com/deploy/srv-d03r09idbo4c738m1ge0?key=dvgbaxhcX44r'
+        RENDER_DEPLOY_HOOK_URL =  'https://api.render.com/deploy/srv-d03r09idbo4c738m1ge0?key=wUdfKLNjbPs'
 
     }
 
@@ -54,9 +54,9 @@ pipeline {
             }
             steps {
                 echo 'Triggering Render Deploy via Webhook...'
-                bat ' curl -X POST "https://api.render.com/deploy/srv-d03r09idbo4c738m1ge0?key=dvgbaxhcX44r" '
- 
-               
+                bat  '''
+                     curl -X POST "https://api.render.com/deploy/srv-d03r09idbo4c738m1ge0?key=wUdfKLNjbPs"
+                '''
               echo "Deployment Success."
             }
         }
