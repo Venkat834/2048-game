@@ -3,6 +3,9 @@ FROM ubuntu:22.04
 # Install nginx, curl, unzip
 RUN apt-get update && apt-get install -y nginx zip curl unzip
 
+# Verify that nginx is installed
+RUN dpkg -l | grep nginx
+
 # Download and extract the 2048 game
 RUN curl -L -o /var/www/html/master.zip https://codeload.github.com/Venkat834/2048-game/zip/master && \
     cd /var/www/html && \
