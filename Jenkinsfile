@@ -27,7 +27,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                   // bat 'docker rm -f venkat8342048 || true'  // Stop and remove old container if exists
+                   // bat 'docker rm -f venkat834/2048 || true'  // Stop and remove old container if exists
                     bat 'docker run -d -p 80:80 venkat834/2048:latest'  // Run new container
                 }
             }
